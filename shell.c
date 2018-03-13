@@ -143,9 +143,7 @@ int parseLine(char* buffer) {
             int fd[2];
             pipe(fd);
             args[++n_cmds] = NULL;
-            if (executeProcess(args, in, fd[1]) < 0) {
-                break;
-            }
+            executeProcess(args, in, fd[1]);
             close(fd[1]);
             // input source for next process.
             in = fd[0];
@@ -154,37 +152,39 @@ int parseLine(char* buffer) {
             continue;
         }
         if (strcmp(nextToken, ">") == 0) {
-            args[++n_cmds] = NULL;
+            // args[++n_cmds] = NULL;
             file = strtok(NULL, " ");
             int fd = open(file, O_RDWR | O_CREAT);
-            if (executeProcess(args, in, fd) < 0) {
-                break;
-            }
-            close(fd);
-            n_cmds = -1;
-            background = 0;
+            out = fd;
+            // if (executeProcess(args, in, fd) < 0) {
+            //     break;
+            // }
+            // close(fd);
+            // n_cmds = -1;
+            // background = 0;
             continue;
         }
         if (strcmp(nextToken, ">>") == 0) {
-            args[++n_cmds] = NULL;
+            // args[++n_cmds] = NULL;
             file = strtok(NULL, " ");
             int fd = open(file, O_RDWR | O_CREAT | O_APPEND);
-            if (executeProcess(args, in, fd) < 0) {
-                break;
-            }
-            close(fd);
-            n_cmds = -1;
+            // if (executeProcess(args, in, fd) < 0) {
+            //     break;
+            // }
+            // close(fd);
+            // n_cmds = -1;
             continue;
         }
         if (strcmp(nextToken, "<") == 0) {
-            args[++n_cmds] = NULL;
+            // args[++n_cmds] = NULL;
             file = strtok(NULL, " ");
             int fd = open(file, O_RDWR);
-            if (executeProcess(args, fd, out) < 0) {
-                break;
-            }
-            close(fd);
-            n_cmds = -1;
+            in = fd;
+            // if (executeProcess(args, fd, out) < 0) {
+            //     break;
+            // }
+            // close(fd);
+            // n_cmds = -1;
             continue;
         }
         args[++n_cmds] = nextToken;
@@ -196,6 +196,7 @@ int parseLine(char* buffer) {
 int main() {
     while(1) {
         fflush(stdout);
+        printf("Van@");
         printCurrentDirectory();
         printf(":");
         char buffer[MAXLEN];
