@@ -152,39 +152,20 @@ int parseLine(char* buffer) {
             continue;
         }
         if (strcmp(nextToken, ">") == 0) {
-            // args[++n_cmds] = NULL;
             file = strtok(NULL, " ");
             int fd = open(file, O_RDWR | O_CREAT);
             out = fd;
-            // if (executeProcess(args, in, fd) < 0) {
-            //     break;
-            // }
-            // close(fd);
-            // n_cmds = -1;
-            // background = 0;
             continue;
         }
         if (strcmp(nextToken, ">>") == 0) {
-            // args[++n_cmds] = NULL;
             file = strtok(NULL, " ");
             int fd = open(file, O_RDWR | O_CREAT | O_APPEND);
-            // if (executeProcess(args, in, fd) < 0) {
-            //     break;
-            // }
-            // close(fd);
-            // n_cmds = -1;
             continue;
         }
         if (strcmp(nextToken, "<") == 0) {
-            // args[++n_cmds] = NULL;
             file = strtok(NULL, " ");
             int fd = open(file, O_RDWR);
             in = fd;
-            // if (executeProcess(args, fd, out) < 0) {
-            //     break;
-            // }
-            // close(fd);
-            // n_cmds = -1;
             continue;
         }
         args[++n_cmds] = nextToken;
