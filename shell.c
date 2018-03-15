@@ -59,6 +59,7 @@ int executeProcess(char** args, int in, int out) {
     } else if (!background){
         wait(NULL);
     }
+    background = 0;
     return pid;
 }
 
@@ -160,6 +161,7 @@ int parseLine(char* buffer) {
         if (strcmp(nextToken, ">>") == 0) {
             file = strtok(NULL, " ");
             int fd = open(file, O_RDWR | O_CREAT | O_APPEND);
+            out = fd;
             continue;
         }
         if (strcmp(nextToken, "<") == 0) {
